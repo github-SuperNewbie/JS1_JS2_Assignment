@@ -1,0 +1,786 @@
+Delivered-To: shank.vattigunta@gmail.com
+Received: by 2002:a05:6a10:87d5:b0:478:9fb3:c546 with SMTP id g21csp2400520pxr;
+        Mon, 10 Apr 2023 21:15:51 -0700 (PDT)
+X-Received: by 2002:a05:6871:295:b0:184:59dd:c27d with SMTP id i21-20020a056871029500b0018459ddc27dmr2437460oae.5.1681186551161;
+        Mon, 10 Apr 2023 21:15:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1681186551; cv=none;
+        d=google.com; s=arc-20160816;
+        b=ZFTMt54swdaK9kVCJSGB7PKjx/BuWQIAe7GsbeGMd//rHNBC8o498IVMfrnfXgoRbR
+         nUFuH2bodGD+Z4BHztV1zTmz+pwtdn+K76anLMOOYSM1Vvq249AqcN86XGaP/G3/kABc
+         B9Zm5maqbA733qKl/yIX/EqkQnI8VAwyS+RdZKEUwBP4sB6KiID+bONmSLlKn7xUnE1e
+         ykXF9HgJioJGKMrR7Cx9jBFB2SUgmPZM0rcpUoG28/FYHoHX8Zx9seJDm7BJl4SW7Rtt
+         ImWUFDTOtd5YMdG6OepwYogNU40qcYm2pKV9y7b2FP1krWCCE3yen5JgU7yWrDiE64RU
+         kmDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:from:subject:date:message-id:feedback-id:mime-version
+         :dkim-signature;
+        bh=L1+eyHzUToCA+kuioiYLwo381vXYU54R84A1YFRXgVs=;
+        b=aG2STKi826Z8yOd+t5pOpUMxTfTS18txTHWa8EOJOP5vECOSYLCau/stq+zpxKPFZP
+         +8mYwdXkdX5ODnxrnTjGSCZ/I7rUAfuuT+sZ4yYTwELblyGXHzilhijtfmuj0hXrrW+o
+         fYJTG6UoIQG5rHTRrCHE28UPxsZcRVW9Yu1LQt79yel0LuWF9ns+K+U1BaHQHEi7Pazn
+         rTykuYXowYG0ajzA9K0/5TSjU83VGglgLBBXrMbQEih+E0Y66k8JstG1RwKUZEaysSMD
+         xvYt/OqhZOFtMZeQojlh1hTLQOdrdSrj+ow0TRw6Jn8b113S1mydYnmjKh3mbFn98SMN
+         tdTA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=lCcscvNR;
+       spf=pass (google.com: domain of 39t40zbykak8udgbh-gtrtxeih-cdgteanvddvat.rdb@trix.bounces.google.com designates 209.85.220.69 as permitted sender) smtp.mailfrom=39t40ZBYKAK8Udgbh-gTRTXeih-cdgTeanVddVaT.Rdb@trix.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Return-Path: <39t40ZBYKAK8Udgbh-gTRTXeih-cdgTeanVddVaT.Rdb@trix.bounces.google.com>
+Received: from mail-sor-f69.google.com (mail-sor-f69.google.com. [209.85.220.69])
+        by mx.google.com with SMTPS id bf10-20020a0568700a0a00b001844c8b7200sor1154003oac.71.2023.04.10.21.15.51
+        for <shank.vattigunta@gmail.com>
+        (Google Transport Security);
+        Mon, 10 Apr 2023 21:15:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 39t40zbykak8udgbh-gtrtxeih-cdgteanvddvat.rdb@trix.bounces.google.com designates 209.85.220.69 as permitted sender) client-ip=209.85.220.69;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=lCcscvNR;
+       spf=pass (google.com: domain of 39t40zbykak8udgbh-gtrtxeih-cdgteanvddvat.rdb@trix.bounces.google.com designates 209.85.220.69 as permitted sender) smtp.mailfrom=39t40ZBYKAK8Udgbh-gTRTXeih-cdgTeanVddVaT.Rdb@trix.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1681186551;
+        h=to:from:subject:date:message-id:feedback-id:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L1+eyHzUToCA+kuioiYLwo381vXYU54R84A1YFRXgVs=;
+        b=lCcscvNRw0WGVPhBpJi1d467P9ZrFwdcsD8GnaFfnT4yeuG55T0jjyWuRpFFBb7jMW
+         TeYA0Mj9+/qg5yKFpVkfKKjzz4G5eOUER4nv+TTETpjkZdXoT/QNS4HUdKSXfkX6Us63
+         7JaWWWYAXNIyXnXJJoEvQsBMZuauaeMuMqlXgp/TkxIJ263ZsosbxHIDoY4wOjk9UghC
+         CrQQXfsUq6Vb87OwNOnzwRqcrerxU4FECqdF1Pn764HVDef2fPM501nU5PaYpE4YEg44
+         +JTSElp3yPmWq5Zaf3qkFP7QaOu7+Zchu7KHvRekfpoGRKmzUbyycI8iqya7yCxpmlHw
+         iTkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681186551;
+        h=to:from:subject:date:message-id:feedback-id:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L1+eyHzUToCA+kuioiYLwo381vXYU54R84A1YFRXgVs=;
+        b=Y97EPbLPieXPGmCN5SCaB8f2VjYEaV3dFdiq0w0MmpJ7UiD8d8FCgzp+UfjDDcePGV
+         d1Xce9mBWIr93GOLladwbhKA6S8pYytmebNVUysA4WDOzGSidezCnYHQs+a9b18HqYeC
+         NrkFl5Lpp6J2HUtac96tRq1mKAeELwAWzfV1wxXHWozXOZ4UD2pU1g0YwqqLcSXXilu2
+         veivTQAsgm7HPtBQiMGYN1mB/axm2NfO8UNnq4hidz3j7MaEo7/xlhDW9zYiK9nCNxJq
+         7x1sszQxTjnaX05n1hPBKNLr1GY8Ns+l5jvvSV5bIxUtTTW/sL5klMxoV45QN9ZlMaQ+
+         8zNg==
+X-Gm-Message-State: AAQBX9dAQVvgl7cp63y6Wdkz1uQemThWk6F3wSrV9emVdiz1JhALcxVz
+	4EvYzeoWwYe3dAzIeTMUzs/E6cu92i3LqGIkvjmWIHri
+X-Google-Smtp-Source: AKy350bY35ceHbYEk5By+nuneK/1oKQbO/YstM0e7YAzahG+v3Z+h/nqTGVV0BpHHC55a9I2C5d8liblrwQe1hUWoA7xSQ==
+MIME-Version: 1.0
+X-Received: by 2002:a05:6870:c0d4:b0:184:2f95:99ba with SMTP id
+ e20-20020a056870c0d400b001842f9599bamr3327398oad.4.1681186550899; Mon, 10 Apr
+ 2023 21:15:50 -0700 (PDT)
+Feedback-ID: MailTypeResponseReceipt:GoogleForms
+X-GoogleForms-FormId: e/1FAIpQLSeRuM31RmldDXw6zuyOCBbceec8X09xR7vtWCFYjYYUEdnTDw
+X-GoogleForms-CustomerDisplayName: Mr. & Mrs. Cloud
+Message-ID: <0000000000002af1c505f907bf20@google.com>
+Date: Tue, 11 Apr 2023 04:15:50 +0000
+Subject: JS Briefing 
+From: Google Forms <forms-receipts-noreply@google.com>
+To: shank.vattigunta@gmail.com
+Content-Type: multipart/alternative; boundary="0000000000002af1b105f907bf1d"
+
+--0000000000002af1b105f907bf1d
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+
+Google Forms
+
+
+Thanks for filling out JS Briefing
+Here's what was received.
+
+View score
+
+
+JS Briefing
+
+part- 1
+
+
+Email *
+
+
+shank.vattigunta@gmail.com
+
+
+What is the outcome of this statement?
+console.log('hi!'.length);
+
+*
+
+
+3 is printed to the console.
+
+
+'hi!'.length will be printed to the console.
+
+
+1 is printed to the console.
+
+
+hi! is printed to the console.
+
+
+What is the correct way to call the random method on the Math global  
+object? *
+
+
+Math(random)
+
+
+Math.random()
+
+
+random.Math()
+
+
+math.random()
+
+
+What is the correct way to call a string's built-in method? *
+
+
+toUpperCase.'codecademy'();
+
+
+'codecademy'.toUpperCase;
+
+
+'codecademy'.toUpperCase();
+
+
+toUpperCase('codecademy');
+
+
+What is string interpolation? *
+
+
+Changing the value of a variable.
+
+
+Using template literals to embed variables into strings.
+
+
+Joining multiple strings together using operators like +
+
+
+Printing a string to the console.
+
+
+What will the following code print to the console?
+
+
+let num = 10;
+num *= 3;
+console.log(num);
+
+*
+
+
+'num'
+
+
+30
+
+
+3
+
+
+10
+
+
+How would you properly refactor this code block using the ternary operator?
+
+
+if (walkSignal === 'Walk') {
+console.log('You may walk!');
+} else {
+console.log('Do not walk!');
+}
+
+*
+
+
+walkSignal ? console.log('You may walk!') : console.log('Do not walk!');
+
+
+walkSignal === 'Walk' ? ('You may walk!') : ('Do not walk!');
+
+
+walkSignal === 'Walk' ? console.log('You may walk!') : console.log('Do not  
+walk!');
+
+
+walkSignal === 'Walk' : console.log('You may walk!') : console.log('Do not  
+walk!');
+
+
+If isHungry equals true, which of the following expressions evaluates to  
+true?
+
+*
+
+
+!isHungry === true
+
+
+!isHungry
+
+
+isHungry === false
+
+
+isHungry !== false
+
+
+What will the code block log to the console?
+
+
+let runTime = 35;
+let runDistance = 3.5;
+
+if (runTime <= 30 && runDistance > 3.5) {
+console.log("You're super fast!");
+} else if (runTime >= 30 && runDistance <= 3) {
+console.log("You're not making your pace!");
+} else if (runTime > 30 || runDistance > 3) {
+console.log("Nice workout!");
+} else {
+console.log("Keep on running!");
+}
+
+*
+
+
+Nice workout!
+
+
+You're not making your pace!
+
+
+You're super fast!
+
+
+isHungry !== false
+
+
+What will the following code log to the console?
+
+
+let needTacos = true;
+
+if (needTacos) {
+console.log("Finding tacos");
+} else {
+console.log("Keep on keeping on!");
+}
+
+*
+
+
+Keep on keeping on!
+
+
+Finding tacos
+
+
+What will the code block log to the console?
+
+
+let groceryItem = "apple";
+
+switch (groceryItem) {
+case "tomato":
+console.log("Tomatoes are $0.49");
+break;
+case "lime":
+console.log("Limes are $1.49");
+break;
+case "papaya":
+console.log("Papayas are $1.29");
+break;
+default:
+console.log("Invalid item");
+break;
+}
+
+*
+
+
+Tomatoes are $0.49
+
+
+Papayas are $1.29
+
+
+Invalid item
+
+
+Limes are $1.49
+
+
+Create your own Google Form
+
+Report Abuse
+
+
+
+--0000000000002af1b105f907bf1d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><style nonce=3D"EgGjGKjoMXnLNuDN113SXw">@import url(https://fon=
+ts.googleapis.com/css?family=3DGoogle+Sans:400,500|Roboto:300,400,400i,500,=
+700&subset=3Dlatin,vietnamese,latin-ext,cyrillic,greek,cyrillic-ext,greek-e=
+xt);</style><style nonce=3D"EgGjGKjoMXnLNuDN113SXw">[class=3D"x_body-conten=
+t-wrapper"] * {white-space: normal !important;}</style></head><body dir=3D"=
+ltr" style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif=
+;font-size: 14px; font-weight: 400; line-height: 20px;text-align: start; wo=
+rd-wrap: break-word; margin: 0; padding: 0; height: 100%; width: 100%;"><ta=
+ble border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"background-co=
+lor:rgb(103,58,183);" width=3D"100%" role=3D"presentation"><tbody><tr heigh=
+t=3D"64px"><td style=3D"padding: 0 24px;"><img alt=3D"Google Forms" height=
+=3D"26px" style=3D"display: inline-block; margin: 0; vertical-align: middle=
+;" width=3D"143px" src=3D"https://www.gstatic.com/docs/forms/google_forms_l=
+ogo_lockup_white_2x.png"></td></tr></tbody></table><div class=3D"body-conte=
+nt-wrapper" style=3D"padding: 12px; background-color: rgb(237,231,246);"><d=
+iv style=3D"margin: 0 auto; max-width: 640px; min-width: 154px;"><div style=
+=3D"border: 1px solid #dadce0; padding: 20px 12px;background-color: #fff; b=
+order-radius: 8px; margin-bottom: 12px;padding: 20px;"><h1 style=3D"color: =
+#202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 20px; fon=
+t-weight: 400; line-height: 28px;margin: 0 0 12px;">Thanks for filling out =
+<a href=3D"https://docs.google.com/forms/d/e/1FAIpQLSeRuM31RmldDXw6zuyOCBbc=
+eec8X09xR7vtWCFYjYYUEdnTDw/viewform?pli=3D1&amp;pli=3D1&amp;usp=3Dmail_form=
+_link" target=3D"_blank" style=3D"white-space: pre-wrap;">JS Briefing=C2=A0=
+</a></h1>Here's what was received.<div style=3D"margin-top: 16px;"><div sty=
+le=3D"margin-top: 24px"><a href=3D"https://docs.google.com/forms/u/0/d/e/1F=
+AIpQLSeRuM31RmldDXw6zuyOCBbceec8X09xR7vtWCFYjYYUEdnTDw/viewscore?pli=3D1&am=
+p;pli=3D1&amp;viewscore=3DAE0zAgDC3PcksbLVgJ4XDWVeOW5952giQ4_EFRjXLaA5zAR_S=
+6LMoVApsdTBc_ynsKquXkg" target=3D"_blank" style=3D"border-radius: 4px;font-=
+family: &#39;Google Sans&#39;,Roboto,Helvetica,Arial,sans-serif;font-size: =
+14px; font-weight: 500; padding: 8px 24px; text-align: center; text-decorat=
+ion: none;background-color: rgb(103,58,183); color: #fff;">View score</a></=
+div><div itemprop=3D"action" itemscope itemtype=3D"http://schema.org/ViewAc=
+tion"><meta itemprop=3D"url" content=3D"https://docs.google.com/forms/u/0/d=
+/e/1FAIpQLSeRuM31RmldDXw6zuyOCBbceec8X09xR7vtWCFYjYYUEdnTDw/viewscore?pli=
+=3D1&amp;pli=3D1&amp;viewscore=3DAE0zAgDC3PcksbLVgJ4XDWVeOW5952giQ4_EFRjXLa=
+A5zAR_S6LMoVApsdTBc_ynsKquXkg"><meta itemprop=3D"name" content=3D"View your=
+ score"></div></div></div><div style=3D"border-bottom: 1px solid #dadce0; b=
+order-left: 1px solid #dadce0; border-right: 1px solid #dadce0; border-top:=
+ 8px solid rgb(103,58,183); padding: 20px;background-color: #fff; border-ra=
+dius: 8px; margin-bottom: 12px;"><h1 dir=3D"ltr" style=3D"font-family: Robo=
+to,Helvetica,Arial,sans-serif;font-size: 32px; font-weight: 400; line-heigh=
+t: 42px;white-space: pre-wrap;margin: 0 0 12px;">JS Briefing=C2=A0</h1><div=
+ style=3D"white-space: pre-wrap;margin-bottom: 12px;">part- 1</div></div><d=
+iv style=3D"border: 1px solid #dadce0; padding: 20px 12px;background-color:=
+ #fff; border-radius: 8px; margin-bottom: 12px;margin-bottom: 12px;"><div s=
+tyle=3D"padding: 0 12px;"><h2 dir=3D"auto" style=3D"color: #202124;font-fam=
+ily: Roboto,Helvetica,Arial,sans-serif;font-size: 16px; font-weight: 400; l=
+ine-height: 24px;white-space: pre-wrap;margin: 0 0 16px;">Email<span style=
+=3D"color: #d93025;" aria-label=3D"Required question"> *</span></h2></div><=
+div style=3D"padding: 0 12px;"><div style=3D"width: 100%;"><div dir=3D"auto=
+" style=3D"white-space: pre-wrap;border-bottom: 1px dotted rgba(0,0,0,0.38)=
+;margin: 12px 0 8px; min-height: 20px;display: inline-block; max-width: 100=
+%; min-width: 50%;">shank.vattigunta@gmail.com</div></div></div></div><div =
+style=3D"border: 1px solid #dadce0; padding: 20px 12px;background-color: #f=
+ff; border-radius: 8px; margin-bottom: 12px;margin-bottom: 12px;"><div styl=
+e=3D"padding: 0 12px;"><h2 dir=3D"auto" style=3D"color: #202124;font-family=
+: Roboto,Helvetica,Arial,sans-serif;font-size: 16px; font-weight: 400; line=
+-height: 24px;white-space: pre-wrap;margin: 0 0 16px;">What is the outcome =
+of this statement?<div><span style=3D"white-space:pre-wrap">console</span><=
+span style=3D"white-space:pre-wrap">.</span><span style=3D"white-space:pre-=
+wrap">log</span><span style=3D"white-space:pre-wrap">(</span><span style=3D=
+"white-space:pre-wrap">'hi!'</span><span style=3D"white-space:pre-wrap">.</=
+span><span style=3D"white-space:pre-wrap">length</span><span style=3D"white=
+-space:pre-wrap">);</span><br></div><span style=3D"color: #d93025;" aria-la=
+bel=3D"Required question"> *</span></h2></div><div style=3D"padding: 0 12px=
+;"><div style=3D"margin-top: 16px;"><table style=3D"color: #202124;font-fam=
+ily: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400; l=
+ine-height: 20px;margin-top: 8px; table-layout: fixed;"><tr><td><div role=
+=3D"radio" aria-checked=3D"true" aria-label=3D"3 is printed to the console.=
+" style=3D"border: solid 2px #5f6368; height: 16px; width: 16px; border-rad=
+ius: 50%;"><div style=3D"background-color: #5f6368; border: solid 5px #5f63=
+68; border-radius: 50%; margin: 3px; height: 0; width: 0;"></div></div></td=
+><td style=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">3=
+ is printed to the console.</td></tr></table></div><div style=3D"margin-top=
+: 16px;"><table style=3D"color: #202124;font-family: Roboto,Helvetica,Arial=
+,sans-serif;font-size: 14px; font-weight: 400; line-height: 20px;color: #70=
+757a;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" ari=
+a-checked=3D"false" aria-label=3D"&#39;hi!&#39;.length will be printed to t=
+he console." style=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px;=
+ border-radius: 50%;"></div></td><td style=3D"min-width: 8px;"></td><td sty=
+le=3D"word-break: break-word;">&#39;hi!&#39;.length will be printed to the =
+console.</td></tr></table></div><div style=3D"margin-top: 16px;"><table sty=
+le=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-si=
+ze: 14px; font-weight: 400; line-height: 20px;color: #70757a;margin-top: 8p=
+x; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false"=
+ aria-label=3D"1 is printed to the console." style=3D"border: solid 2px #9a=
+a0a6; height: 16px; width: 16px; border-radius: 50%;"></div></td><td style=
+=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">1 is printe=
+d to the console.</td></tr></table></div><div style=3D"margin-top: 16px;"><=
+table style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-seri=
+f;font-size: 14px; font-weight: 400; line-height: 20px;color: #70757a;margi=
+n-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=
+=3D"false" aria-label=3D"hi! is printed to the console." style=3D"border: s=
+olid 2px #9aa0a6; height: 16px; width: 16px; border-radius: 50%;"></div></t=
+d><td style=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">=
+hi! is printed to the console.</td></tr></table></div></div></div><div styl=
+e=3D"border: 1px solid #dadce0; padding: 20px 12px;background-color: #fff; =
+border-radius: 8px; margin-bottom: 12px;margin-bottom: 12px;"><div style=3D=
+"padding: 0 12px;"><h2 dir=3D"auto" style=3D"color: #202124;font-family: Ro=
+boto,Helvetica,Arial,sans-serif;font-size: 16px; font-weight: 400; line-hei=
+ght: 24px;white-space: pre-wrap;margin: 0 0 16px;">What is the correct way =
+to call the=C2=A0<span style=3D"font-weight:700">random</span>=C2=A0method =
+on the=C2=A0<span style=3D"font-weight:700">Math</span>=C2=A0global object?=
+<span style=3D"color: #d93025;" aria-label=3D"Required question"> *</span><=
+/h2></div><div style=3D"padding: 0 12px;"><div style=3D"margin-top: 16px;">=
+<table style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-ser=
+if;font-size: 14px; font-weight: 400; line-height: 20px;color: #70757a;marg=
+in-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=
+=3D"false" aria-label=3D"Math(random)" style=3D"border: solid 2px #9aa0a6; =
+height: 16px; width: 16px; border-radius: 50%;"></div></td><td style=3D"min=
+-width: 8px;"></td><td style=3D"word-break: break-word;">Math(random)</td><=
+/tr></table></div><div style=3D"margin-top: 16px;"><table style=3D"color: #=
+202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font=
+-weight: 400; line-height: 20px;margin-top: 8px; table-layout: fixed;"><tr>=
+<td><div role=3D"radio" aria-checked=3D"true" aria-label=3D"Math.random()" =
+style=3D"border: solid 2px #5f6368; height: 16px; width: 16px; border-radiu=
+s: 50%;"><div style=3D"background-color: #5f6368; border: solid 5px #5f6368=
+; border-radius: 50%; margin: 3px; height: 0; width: 0;"></div></div></td><=
+td style=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">Mat=
+h.random()</td></tr></table></div><div style=3D"margin-top: 16px;"><table s=
+tyle=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-=
+size: 14px; font-weight: 400; line-height: 20px;color: #70757a;margin-top: =
+8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"fals=
+e" aria-label=3D"random.Math()" style=3D"border: solid 2px #9aa0a6; height:=
+ 16px; width: 16px; border-radius: 50%;"></div></td><td style=3D"min-width:=
+ 8px;"></td><td style=3D"word-break: break-word;">random.Math()</td></tr></=
+table></div><div style=3D"margin-top: 16px;"><table style=3D"color: #202124=
+;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weigh=
+t: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-layout: fix=
+ed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"math.=
+random()" style=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; bo=
+rder-radius: 50%;"></div></td><td style=3D"min-width: 8px;"></td><td style=
+=3D"word-break: break-word;">math.random()</td></tr></table></div></div></d=
+iv><div style=3D"border: 1px solid #dadce0; padding: 20px 12px;background-c=
+olor: #fff; border-radius: 8px; margin-bottom: 12px;margin-bottom: 12px;"><=
+div style=3D"padding: 0 12px;"><h2 dir=3D"auto" style=3D"color: #202124;fon=
+t-family: Roboto,Helvetica,Arial,sans-serif;font-size: 16px; font-weight: 4=
+00; line-height: 24px;white-space: pre-wrap;margin: 0 0 16px;">What is the =
+correct way to call a string=E2=80=99s built-in method?<span style=3D"color=
+: #d93025;" aria-label=3D"Required question"> *</span></h2></div><div style=
+=3D"padding: 0 12px;"><div style=3D"margin-top: 16px;"><table style=3D"colo=
+r: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; =
+font-weight: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-l=
+ayout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-labe=
+l=3D"toUpperCase.&#39;codecademy&#39;();" style=3D"border: solid 2px #9aa0a=
+6; height: 16px; width: 16px; border-radius: 50%;"></div></td><td style=3D"=
+min-width: 8px;"></td><td style=3D"word-break: break-word;">toUpperCase.&#3=
+9;codecademy&#39;();</td></tr></table></div><div style=3D"margin-top: 16px;=
+"><table style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-s=
+erif;font-size: 14px; font-weight: 400; line-height: 20px;color: #70757a;ma=
+rgin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-check=
+ed=3D"false" aria-label=3D"&#39;codecademy&#39;.toUpperCase;" style=3D"bord=
+er: solid 2px #9aa0a6; height: 16px; width: 16px; border-radius: 50%;"></di=
+v></td><td style=3D"min-width: 8px;"></td><td style=3D"word-break: break-wo=
+rd;">&#39;codecademy&#39;.toUpperCase;</td></tr></table></div><div style=3D=
+"margin-top: 16px;"><table style=3D"color: #202124;font-family: Roboto,Helv=
+etica,Arial,sans-serif;font-size: 14px; font-weight: 400; line-height: 20px=
+;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-ch=
+ecked=3D"true" aria-label=3D"&#39;codecademy&#39;.toUpperCase();" style=3D"=
+border: solid 2px #5f6368; height: 16px; width: 16px; border-radius: 50%;">=
+<div style=3D"background-color: #5f6368; border: solid 5px #5f6368; border-=
+radius: 50%; margin: 3px; height: 0; width: 0;"></div></div></td><td style=
+=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">&#39;codeca=
+demy&#39;.toUpperCase();</td></tr></table></div><div style=3D"margin-top: 1=
+6px;"><table style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sa=
+ns-serif;font-size: 14px; font-weight: 400; line-height: 20px;color: #70757=
+a;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-c=
+hecked=3D"false" aria-label=3D"toUpperCase(&#39;codecademy&#39;);" style=3D=
+"border: solid 2px #9aa0a6; height: 16px; width: 16px; border-radius: 50%;"=
+></div></td><td style=3D"min-width: 8px;"></td><td style=3D"word-break: bre=
+ak-word;">toUpperCase(&#39;codecademy&#39;);</td></tr></table></div></div><=
+/div><div style=3D"border: 1px solid #dadce0; padding: 20px 12px;background=
+-color: #fff; border-radius: 8px; margin-bottom: 12px;margin-bottom: 12px;"=
+><div style=3D"padding: 0 12px;"><h2 dir=3D"auto" style=3D"color: #202124;f=
+ont-family: Roboto,Helvetica,Arial,sans-serif;font-size: 16px; font-weight:=
+ 400; line-height: 24px;white-space: pre-wrap;margin: 0 0 16px;">What is st=
+ring interpolation?<span style=3D"color: #d93025;" aria-label=3D"Required q=
+uestion"> *</span></h2></div><div style=3D"padding: 0 12px;"><div style=3D"=
+margin-top: 16px;"><table style=3D"color: #202124;font-family: Roboto,Helve=
+tica,Arial,sans-serif;font-size: 14px; font-weight: 400; line-height: 20px;=
+color: #70757a;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"=
+radio" aria-checked=3D"false" aria-label=3D"Changing the value of a variabl=
+e." style=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; border-r=
+adius: 50%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"wor=
+d-break: break-word;">Changing the value of a variable.</td></tr></table></=
+div><div style=3D"margin-top: 16px;"><table style=3D"color: #202124;font-fa=
+mily: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400; =
+line-height: 20px;margin-top: 8px; table-layout: fixed;"><tr><td><div role=
+=3D"radio" aria-checked=3D"true" aria-label=3D"Using template literals to e=
+mbed variables into strings." style=3D"border: solid 2px #5f6368; height: 1=
+6px; width: 16px; border-radius: 50%;"><div style=3D"background-color: #5f6=
+368; border: solid 5px #5f6368; border-radius: 50%; margin: 3px; height: 0;=
+ width: 0;"></div></div></td><td style=3D"min-width: 8px;"></td><td style=
+=3D"word-break: break-word;">Using template literals to embed variables int=
+o strings.</td></tr></table></div><div style=3D"margin-top: 16px;"><table s=
+tyle=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-=
+size: 14px; font-weight: 400; line-height: 20px;color: #70757a;margin-top: =
+8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"fals=
+e" aria-label=3D"Joining multiple strings together using operators like +" =
+style=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; border-radiu=
+s: 50%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"word-br=
+eak: break-word;">Joining multiple strings together using operators like +<=
+/td></tr></table></div><div style=3D"margin-top: 16px;"><table style=3D"col=
+or: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px;=
+ font-weight: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-=
+layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-lab=
+el=3D"Printing a string to the console." style=3D"border: solid 2px #9aa0a6=
+; height: 16px; width: 16px; border-radius: 50%;"></div></td><td style=3D"m=
+in-width: 8px;"></td><td style=3D"word-break: break-word;">Printing a strin=
+g to the console.</td></tr></table></div></div></div><div style=3D"border: =
+1px solid #dadce0; padding: 20px 12px;background-color: #fff; border-radius=
+: 8px; margin-bottom: 12px;margin-bottom: 12px;"><div style=3D"padding: 0 1=
+2px;"><h2 dir=3D"auto" style=3D"color: #202124;font-family: Roboto,Helvetic=
+a,Arial,sans-serif;font-size: 16px; font-weight: 400; line-height: 24px;whi=
+te-space: pre-wrap;margin: 0 0 16px;"><div><div><p>What will the following =
+code print to the console?</p></div></div><div><div style=3D"white-space:pr=
+e-wrap">let num =3D=C2=A010;<br>num *=3D 3;<br>console.log(num); </div></di=
+v><span style=3D"color: #d93025;" aria-label=3D"Required question"> *</span=
+></h2></div><div style=3D"padding: 0 12px;"><div style=3D"margin-top: 16px;=
+"><table style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-s=
+erif;font-size: 14px; font-weight: 400; line-height: 20px;color: #70757a;ma=
+rgin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-check=
+ed=3D"false" aria-label=3D"&#39;num&#39;" style=3D"border: solid 2px #9aa0a=
+6; height: 16px; width: 16px; border-radius: 50%;"></div></td><td style=3D"=
+min-width: 8px;"></td><td style=3D"word-break: break-word;">&#39;num&#39;</=
+td></tr></table></div><div style=3D"margin-top: 16px;"><table style=3D"colo=
+r: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; =
+font-weight: 400; line-height: 20px;margin-top: 8px; table-layout: fixed;">=
+<tr><td><div role=3D"radio" aria-checked=3D"true" aria-label=3D"30" style=
+=3D"border: solid 2px #5f6368; height: 16px; width: 16px; border-radius: 50=
+%;"><div style=3D"background-color: #5f6368; border: solid 5px #5f6368; bor=
+der-radius: 50%; margin: 3px; height: 0; width: 0;"></div></div></td><td st=
+yle=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">30</td><=
+/tr></table></div><div style=3D"margin-top: 16px;"><table style=3D"color: #=
+202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font=
+-weight: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-layou=
+t: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D=
+"3" style=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; border-r=
+adius: 50%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"wor=
+d-break: break-word;">3</td></tr></table></div><div style=3D"margin-top: 16=
+px;"><table style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,san=
+s-serif;font-size: 14px; font-weight: 400; line-height: 20px;color: #70757a=
+;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-ch=
+ecked=3D"false" aria-label=3D"10" style=3D"border: solid 2px #9aa0a6; heigh=
+t: 16px; width: 16px; border-radius: 50%;"></div></td><td style=3D"min-widt=
+h: 8px;"></td><td style=3D"word-break: break-word;">10</td></tr></table></d=
+iv></div></div><div style=3D"border: 1px solid #dadce0; padding: 20px 12px;=
+background-color: #fff; border-radius: 8px; margin-bottom: 12px;margin-bott=
+om: 12px;"><div style=3D"padding: 0 12px;"><h2 dir=3D"auto" style=3D"color:=
+ #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 16px; fo=
+nt-weight: 400; line-height: 24px;white-space: pre-wrap;margin: 0 0 16px;">=
+<div><div><p>How would you properly refactor this code block using the tern=
+ary operator?</p></div></div><div><div style=3D"white-space:pre-wrap">if (w=
+alkSignal =3D=3D=3D 'Walk') {<br>=C2=A0=C2=A0=C2=A0=C2=A0console.log('You m=
+ay walk!'); <br>} else {=C2=A0=C2=A0=C2=A0<br>=C2=A0=C2=A0=C2=A0=C2=A0conso=
+le.log('Do not walk!');<br>}</div></div><span style=3D"color: #d93025;" ari=
+a-label=3D"Required question"> *</span></h2></div><div style=3D"padding: 0 =
+12px;"><div style=3D"margin-top: 16px;"><table style=3D"color: #202124;font=
+-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 40=
+0; line-height: 20px;margin-top: 8px; table-layout: fixed;"><tr><td><div ro=
+le=3D"radio" aria-checked=3D"true" aria-label=3D"walkSignal ? console.log(&=
+#39;You may walk!&#39;) : console.log(&#39;Do not walk!&#39;);" style=3D"bo=
+rder: solid 2px #5f6368; height: 16px; width: 16px; border-radius: 50%;"><d=
+iv style=3D"background-color: #5f6368; border: solid 5px #5f6368; border-ra=
+dius: 50%; margin: 3px; height: 0; width: 0;"></div></div></td><td style=3D=
+"min-width: 8px;"></td><td style=3D"word-break: break-word;">walkSignal ? c=
+onsole.log(&#39;You may walk!&#39;) : console.log(&#39;Do not walk!&#39;);<=
+/td></tr></table></div><div style=3D"margin-top: 16px;"><table style=3D"col=
+or: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px;=
+ font-weight: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-=
+layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-lab=
+el=3D"walkSignal =3D=3D=3D &#39;Walk&#39; ? (&#39;You may walk!&#39;) : (&#=
+39;Do not walk!&#39;);" style=3D"border: solid 2px #9aa0a6; height: 16px; w=
+idth: 16px; border-radius: 50%;"></div></td><td style=3D"min-width: 8px;"><=
+/td><td style=3D"word-break: break-word;">walkSignal =3D=3D=3D &#39;Walk&#3=
+9; ? (&#39;You may walk!&#39;) : (&#39;Do not walk!&#39;);</td></tr></table=
+></div><div style=3D"margin-top: 16px;"><table style=3D"color: #202124;font=
+-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 40=
+0; line-height: 20px;color: #70757a;margin-top: 8px; table-layout: fixed;">=
+<tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"walkSignal=
+ =3D=3D=3D &#39;Walk&#39; ? console.log(&#39;You may walk!&#39;) : console.=
+log(&#39;Do not walk!&#39;);" style=3D"border: solid 2px #9aa0a6; height: 1=
+6px; width: 16px; border-radius: 50%;"></div></td><td style=3D"min-width: 8=
+px;"></td><td style=3D"word-break: break-word;">walkSignal =3D=3D=3D &#39;W=
+alk&#39; ? console.log(&#39;You may walk!&#39;) : console.log(&#39;Do not w=
+alk!&#39;);</td></tr></table></div><div style=3D"margin-top: 16px;"><table =
+style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font=
+-size: 14px; font-weight: 400; line-height: 20px;color: #70757a;margin-top:=
+ 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"fal=
+se" aria-label=3D"walkSignal =3D=3D=3D &#39;Walk&#39; : console.log(&#39;Yo=
+u may walk!&#39;) : console.log(&#39;Do not walk!&#39;);" style=3D"border: =
+solid 2px #9aa0a6; height: 16px; width: 16px; border-radius: 50%;"></div></=
+td><td style=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;"=
+>walkSignal =3D=3D=3D &#39;Walk&#39; : console.log(&#39;You may walk!&#39;)=
+ : console.log(&#39;Do not walk!&#39;);</td></tr></table></div></div></div>=
+<div style=3D"border: 1px solid #dadce0; padding: 20px 12px;background-colo=
+r: #fff; border-radius: 8px; margin-bottom: 12px;margin-bottom: 12px;"><div=
+ style=3D"padding: 0 12px;"><h2 dir=3D"auto" style=3D"color: #202124;font-f=
+amily: Roboto,Helvetica,Arial,sans-serif;font-size: 16px; font-weight: 400;=
+ line-height: 24px;white-space: pre-wrap;margin: 0 0 16px;"><p>If=C2=A0<spa=
+n style=3D"font-weight:700">isHungry</span>=C2=A0equals=C2=A0<span style=3D=
+"font-weight:700">true</span>, which of the following expressions evaluates=
+ to=C2=A0<span style=3D"font-weight:700">true</span>?<br></p><span style=3D=
+"color: #d93025;" aria-label=3D"Required question"> *</span></h2></div><div=
+ style=3D"padding: 0 12px;"><div style=3D"margin-top: 16px;"><table style=
+=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size=
+: 14px; font-weight: 400; line-height: 20px;color: #70757a;margin-top: 8px;=
+ table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" a=
+ria-label=3D"!isHungry =3D=3D=3D true" style=3D"border: solid 2px #9aa0a6; =
+height: 16px; width: 16px; border-radius: 50%;"></div></td><td style=3D"min=
+-width: 8px;"></td><td style=3D"word-break: break-word;">!isHungry =3D=3D=
+=3D true</td></tr></table></div><div style=3D"margin-top: 16px;"><table sty=
+le=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-si=
+ze: 14px; font-weight: 400; line-height: 20px;margin-top: 8px; table-layout=
+: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"true" aria-label=3D"!=
+isHungry" style=3D"border: solid 2px #5f6368; height: 16px; width: 16px; bo=
+rder-radius: 50%;"><div style=3D"background-color: #5f6368; border: solid 5=
+px #5f6368; border-radius: 50%; margin: 3px; height: 0; width: 0;"></div></=
+div></td><td style=3D"min-width: 8px;"></td><td style=3D"word-break: break-=
+word;">!isHungry</td></tr></table></div><div style=3D"margin-top: 16px;"><t=
+able style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif=
+;font-size: 14px; font-weight: 400; line-height: 20px;color: #70757a;margin=
+-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=
+=3D"false" aria-label=3D"isHungry =3D=3D=3D false" style=3D"border: solid 2=
+px #9aa0a6; height: 16px; width: 16px; border-radius: 50%;"></div></td><td =
+style=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">isHung=
+ry =3D=3D=3D false</td></tr></table></div><div style=3D"margin-top: 16px;">=
+<table style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-ser=
+if;font-size: 14px; font-weight: 400; line-height: 20px;color: #70757a;marg=
+in-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=
+=3D"false" aria-label=3D"isHungry !=3D=3D false" style=3D"border: solid 2px=
+ #9aa0a6; height: 16px; width: 16px; border-radius: 50%;"></div></td><td st=
+yle=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">isHungry=
+ !=3D=3D false</td></tr></table></div></div></div><div style=3D"border: 1px=
+ solid #dadce0; padding: 20px 12px;background-color: #fff; border-radius: 8=
+px; margin-bottom: 12px;margin-bottom: 12px;"><div style=3D"padding: 0 12px=
+;"><h2 dir=3D"auto" style=3D"color: #202124;font-family: Roboto,Helvetica,A=
+rial,sans-serif;font-size: 16px; font-weight: 400; line-height: 24px;white-=
+space: pre-wrap;margin: 0 0 16px;"><div><div><p>What will the code block lo=
+g to the console?</p></div></div><div><div style=3D"white-space:pre-wrap">l=
+et runTime =3D=C2=A035;<br>let runDistance =3D=C2=A03.5;<br> <br>if (runTim=
+e &lt;=3D 30 &amp;&amp; runDistance &gt; 3.5) {<br>=C2=A0=C2=A0console.log(=
+"You're super fast!");<br>} else if (runTime &gt;=3D 30 &amp;&amp; runDista=
+nce &lt;=3D 3) {<br>=C2=A0=C2=A0console.log("You're not making your pace!")=
+;<br>} else if (runTime &gt; 30 || runDistance &gt; 3) {<br>=C2=A0=C2=A0con=
+sole.log("Nice workout!"); <br>} else {<br>=C2=A0=C2=A0console.log("Keep on=
+ running!");<br>}</div></div><span style=3D"color: #d93025;" aria-label=3D"=
+Required question"> *</span></h2></div><div style=3D"padding: 0 12px;"><div=
+ style=3D"margin-top: 16px;"><table style=3D"color: #202124;font-family: Ro=
+boto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400; line-hei=
+ght: 20px;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio=
+" aria-checked=3D"true" aria-label=3D"Nice workout!" style=3D"border: solid=
+ 2px #5f6368; height: 16px; width: 16px; border-radius: 50%;"><div style=3D=
+"background-color: #5f6368; border: solid 5px #5f6368; border-radius: 50%; =
+margin: 3px; height: 0; width: 0;"></div></div></td><td style=3D"min-width:=
+ 8px;"></td><td style=3D"word-break: break-word;">Nice workout!</td></tr></=
+table></div><div style=3D"margin-top: 16px;"><table style=3D"color: #202124=
+;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weigh=
+t: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-layout: fix=
+ed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"You=
+=E2=80=99re not making your pace!" style=3D"border: solid 2px #9aa0a6; heig=
+ht: 16px; width: 16px; border-radius: 50%;"></div></td><td style=3D"min-wid=
+th: 8px;"></td><td style=3D"word-break: break-word;">You=E2=80=99re not mak=
+ing your pace!</td></tr></table></div><div style=3D"margin-top: 16px;"><tab=
+le style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;f=
+ont-size: 14px; font-weight: 400; line-height: 20px;color: #70757a;margin-t=
+op: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"=
+false" aria-label=3D"You=E2=80=99re super fast!" style=3D"border: solid 2px=
+ #9aa0a6; height: 16px; width: 16px; border-radius: 50%;"></div></td><td st=
+yle=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">You=E2=
+=80=99re super fast!</td></tr></table></div><div style=3D"margin-top: 16px;=
+"><table style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-s=
+erif;font-size: 14px; font-weight: 400; line-height: 20px;color: #70757a;ma=
+rgin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-check=
+ed=3D"false" aria-label=3D"isHungry !=3D=3D false" style=3D"border: solid 2=
+px #9aa0a6; height: 16px; width: 16px; border-radius: 50%;"></div></td><td =
+style=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">isHung=
+ry !=3D=3D false</td></tr></table></div></div></div><div style=3D"border: 1=
+px solid #dadce0; padding: 20px 12px;background-color: #fff; border-radius:=
+ 8px; margin-bottom: 12px;margin-bottom: 12px;"><div style=3D"padding: 0 12=
+px;"><h2 dir=3D"auto" style=3D"color: #202124;font-family: Roboto,Helvetica=
+,Arial,sans-serif;font-size: 16px; font-weight: 400; line-height: 24px;whit=
+e-space: pre-wrap;margin: 0 0 16px;"><div><div><p>What will the following c=
+ode log to the console?</p></div></div><div><div style=3D"white-space:pre-w=
+rap">let needTacos =3D=C2=A0true;<br> <br>if (needTacos) {<br>=C2=A0=C2=A0=
+=C2=A0=C2=A0console.log("Finding tacos");<br>} else {<br>=C2=A0=C2=A0=C2=A0=
+=C2=A0console.log("Keep on keeping on!");<br>}</div></div><span style=3D"co=
+lor: #d93025;" aria-label=3D"Required question"> *</span></h2></div><div st=
+yle=3D"padding: 0 12px;"><div style=3D"margin-top: 16px;"><table style=3D"c=
+olor: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14p=
+x; font-weight: 400; line-height: 20px;color: #70757a;margin-top: 8px; tabl=
+e-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-l=
+abel=3D"Keep on keeping on!" style=3D"border: solid 2px #9aa0a6; height: 16=
+px; width: 16px; border-radius: 50%;"></div></td><td style=3D"min-width: 8p=
+x;"></td><td style=3D"word-break: break-word;">Keep on keeping on!</td></tr=
+></table></div><div style=3D"margin-top: 16px;"><table style=3D"color: #202=
+124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-we=
+ight: 400; line-height: 20px;margin-top: 8px; table-layout: fixed;"><tr><td=
+><div role=3D"radio" aria-checked=3D"true" aria-label=3D"Finding tacos" sty=
+le=3D"border: solid 2px #5f6368; height: 16px; width: 16px; border-radius: =
+50%;"><div style=3D"background-color: #5f6368; border: solid 5px #5f6368; b=
+order-radius: 50%; margin: 3px; height: 0; width: 0;"></div></div></td><td =
+style=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">Findin=
+g tacos</td></tr></table></div></div></div><div style=3D"border: 1px solid =
+#dadce0; padding: 20px 12px;background-color: #fff; border-radius: 8px; mar=
+gin-bottom: 12px;margin-bottom: 12px;"><div style=3D"padding: 0 12px;"><h2 =
+dir=3D"auto" style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sa=
+ns-serif;font-size: 16px; font-weight: 400; line-height: 24px;white-space: =
+pre-wrap;margin: 0 0 16px;"><div><div><p>What will the code block log to th=
+e console?</p></div></div><div><div style=3D"white-space:pre-wrap">let groc=
+eryItem =3D=C2=A0"apple";<br> <br>switch (groceryItem) {<br>=C2=A0=C2=A0cas=
+e "tomato":<br>=C2=A0=C2=A0=C2=A0=C2=A0console.log("Tomatoes are $0.49");<b=
+r>=C2=A0=C2=A0=C2=A0=C2=A0break;<br>=C2=A0=C2=A0case "lime":<br>=C2=A0=C2=
+=A0=C2=A0=C2=A0console.log("Limes are $1.49");<br>=C2=A0=C2=A0=C2=A0=C2=A0b=
+reak;<br>=C2=A0=C2=A0case "papaya":<br>=C2=A0=C2=A0=C2=A0=C2=A0console.log(=
+"Papayas are $1.29");<br>=C2=A0=C2=A0=C2=A0=C2=A0break;<br>=C2=A0=C2=A0defa=
+ult:<br>=C2=A0=C2=A0=C2=A0=C2=A0console.log("Invalid item");<br>=C2=A0=C2=
+=A0=C2=A0=C2=A0break;<br>}</div></div><span style=3D"color: #d93025;" aria-=
+label=3D"Required question"> *</span></h2></div><div style=3D"padding: 0 12=
+px;"><div style=3D"margin-top: 16px;"><table style=3D"color: #202124;font-f=
+amily: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400;=
+ line-height: 20px;color: #70757a;margin-top: 8px; table-layout: fixed;"><t=
+r><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"Tomatoes are=
+ $0.49" style=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; bord=
+er-radius: 50%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D=
+"word-break: break-word;">Tomatoes are $0.49</td></tr></table></div><div st=
+yle=3D"margin-top: 16px;"><table style=3D"color: #202124;font-family: Robot=
+o,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400; line-height=
+: 20px;color: #70757a;margin-top: 8px; table-layout: fixed;"><tr><td><div r=
+ole=3D"radio" aria-checked=3D"false" aria-label=3D"Papayas are $1.29" style=
+=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; border-radius: 50=
+%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"word-break: =
+break-word;">Papayas are $1.29</td></tr></table></div><div style=3D"margin-=
+top: 16px;"><table style=3D"color: #202124;font-family: Roboto,Helvetica,Ar=
+ial,sans-serif;font-size: 14px; font-weight: 400; line-height: 20px;margin-=
+top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D=
+"true" aria-label=3D"Invalid item" style=3D"border: solid 2px #5f6368; heig=
+ht: 16px; width: 16px; border-radius: 50%;"><div style=3D"background-color:=
+ #5f6368; border: solid 5px #5f6368; border-radius: 50%; margin: 3px; heigh=
+t: 0; width: 0;"></div></div></td><td style=3D"min-width: 8px;"></td><td st=
+yle=3D"word-break: break-word;">Invalid item</td></tr></table></div><div st=
+yle=3D"margin-top: 16px;"><table style=3D"color: #202124;font-family: Robot=
+o,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400; line-height=
+: 20px;color: #70757a;margin-top: 8px; table-layout: fixed;"><tr><td><div r=
+ole=3D"radio" aria-checked=3D"false" aria-label=3D"Limes are $1.49" style=
+=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; border-radius: 50=
+%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"word-break: =
+break-word;">Limes are $1.49</td></tr></table></div></div></div></div><tabl=
+e align=3D"center" cellpadding=3D"0" cellspacing=3D"0" style=3D"max-width: =
+672px; min-width: 154px; border-collapse: separate; border-spacing: 0 0.2em=
+;" width=3D"100%" role=3D"presentation"><tbody><tr height=3D"24px"><td></td=
+></tr><tr><td><a href=3D"https://docs.google.com/forms?usp=3Dmail_form_link=
+" style=3D"color: #424242; font-size: 13px;">Create your own Google Form</a=
+></td></tr><tr><td><a href=3D"https://docs.google.com/forms/u/0/d/e/1FAIpQL=
+SeRuM31RmldDXw6zuyOCBbceec8X09xR7vtWCFYjYYUEdnTDw/reportabuse?pli=3D1&amp;s=
+ource=3Dhttps://docs.google.com/forms/d/e/1FAIpQLSeRuM31RmldDXw6zuyOCBbceec=
+8X09xR7vtWCFYjYYUEdnTDw/viewform?pli%3D1%26pli%3D1&amp;usp=3Dmail_receipt_a=
+buse" target=3D"_blank" style=3D"color: #424242; font-size: 13px;">Report A=
+buse</a></td></tr></tbody></table></div></body></html>
+--0000000000002af1b105f907bf1d--

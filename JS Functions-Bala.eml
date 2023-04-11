@@ -1,0 +1,798 @@
+Delivered-To: shank.vattigunta@gmail.com
+Received: by 2002:a05:6a10:87d5:b0:478:9fb3:c546 with SMTP id g21csp2407043pxr;
+        Mon, 10 Apr 2023 21:36:35 -0700 (PDT)
+X-Received: by 2002:a05:6870:340f:b0:184:37a:41f5 with SMTP id g15-20020a056870340f00b00184037a41f5mr4981943oah.30.1681187794898;
+        Mon, 10 Apr 2023 21:36:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1681187794; cv=none;
+        d=google.com; s=arc-20160816;
+        b=Ot7dIakVA6T2N+JtEfsWiHBiVe+JyNSRVA4nBShwHnvUhr8DXaJQRWE2psSZf2Naf1
+         SoonoSr64eIsXgE9hcOIG35mV/hLSsvOJeJwxvEKm8d0pgTov96EgVapl1YHLd72RFYV
+         0SuywMwNc9sHGa53t8kA2FJP6YArnjuv9jt9LYzaDEPB31gBxuueug5Nz8YTmgoAGCJS
+         p1cW/w4i/voRKPQGNqNaQi+vpKnVrkrgdo4fVIaIfMczkzFAXvttXlJe9zie+MaI+3xG
+         mdxyhswUkANKlmNd+09yP8kqF2XPtG0RA3S0dM1Xa3dHxjqudo6kD8OTCZgTzD2nbVZS
+         pbpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:from:subject:date:message-id:feedback-id:mime-version
+         :dkim-signature;
+        bh=wM3Lo3V5moTXkJ6IZUuyMJ80E0E61uWqfFesyBZfV1I=;
+        b=W+KnuHCpmW8Uuz8qv5habjXihDNbUGIT+I0kB1Lge0Q75Samtqngq4gklVxwYA06Dp
+         8y1LpCBJHbvRoqxqaftn8QlNYq0Y+b/EcoTrQ/DodxcXqimTBiRRGPrmqx6fOdgiQ9bl
+         BSqNYo1sMZv/sAa2U5A9z2Q7/qExSvJ5KyX/ho/ms0ZUEiRBu1/kGrI/qzpGADHuFhil
+         rRnpehL+WtoV4Rlqf38HKCrkVWs3j2pEXaebOdRAO0iqCxZjfIQgAL59jtcm9rwozAlu
+         r/5q32ihITWEdhVv6ugV/hkZsHSws1h76y4M3c8indSt2Dq1CxGT8IC6eWioJdmdIQ/b
+         RTyQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Zj16piCE;
+       spf=pass (google.com: domain of 30um0zbykaju4dgbh-g3137eih-cdg3ean5dd5a3.1db@trix.bounces.google.com designates 209.85.220.69 as permitted sender) smtp.mailfrom=30uM0ZBYKAJU4DGBH-G3137EIH-CDG3EAN5DD5A3.1DB@trix.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Return-Path: <30uM0ZBYKAJU4DGBH-G3137EIH-CDG3EAN5DD5A3.1DB@trix.bounces.google.com>
+Received: from mail-sor-f69.google.com (mail-sor-f69.google.com. [209.85.220.69])
+        by mx.google.com with SMTPS id bt4-20020a0568201a8400b0053e11a6ebabsor1082415oob.34.2023.04.10.21.36.34
+        for <shank.vattigunta@gmail.com>
+        (Google Transport Security);
+        Mon, 10 Apr 2023 21:36:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 30um0zbykaju4dgbh-g3137eih-cdg3ean5dd5a3.1db@trix.bounces.google.com designates 209.85.220.69 as permitted sender) client-ip=209.85.220.69;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Zj16piCE;
+       spf=pass (google.com: domain of 30um0zbykaju4dgbh-g3137eih-cdg3ean5dd5a3.1db@trix.bounces.google.com designates 209.85.220.69 as permitted sender) smtp.mailfrom=30uM0ZBYKAJU4DGBH-G3137EIH-CDG3EAN5DD5A3.1DB@trix.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1681187794;
+        h=to:from:subject:date:message-id:feedback-id:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wM3Lo3V5moTXkJ6IZUuyMJ80E0E61uWqfFesyBZfV1I=;
+        b=Zj16piCE2GzXshqLrqpNROesXo5TlleaCJH+mPwb1XVkOFnwZb8aNIdnxkOwrhiLGb
+         yacPaX9cw2ogZ9Xx3hYXk+4Q9dR4t5Grw34eHppkFt3kj85hz2bNmee2c1KSIANM08Xa
+         ft2TysfNPUHCQ5X1+jyKd1k9e8/E8k6irKQBTlM7IU0jTgZYPo4yovi6WpohNuRWqYgK
+         QgyFwL+Csl6ZshUJx9fEDcVLkDoZL+m4ACb4CUsAmm+eeoY9w5xIFalQjqxWDjougN3u
+         q+HSPoyyJeUQuXKBLvu2vcwXJDyLHUd3V6NB2muxpEy1Ik7wCfiZHFxUb1pJLYETrKEz
+         rhoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681187794;
+        h=to:from:subject:date:message-id:feedback-id:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wM3Lo3V5moTXkJ6IZUuyMJ80E0E61uWqfFesyBZfV1I=;
+        b=PFCyjRzLYGmFaaqGOsz4pa/uEV04MF7rTDZLJGMZskFV57f84lfo+X7IuQHanhy6rd
+         6I+jSpzpfSqiO6UsGrb4j2HEOogpnwXdf+YTYSyShqWs9bYWQCICIlChV1my9XbBv540
+         ecstesysq4fIbya4sFraQOPCfXG0GXjSZShry9FMbpUOw03TqBaRHN/4sk4OJWAhvT7E
+         SBl9QBs63cFeVuwjwy2XDAkIVOiKQOUGct3w4PQPtK0YZvD6nox0ix0Ef52mSmmWQMNb
+         3XLlgjZK3+rliAvDxtGMCI1vLqyNvWUqGdg+9wBZHXJ9AW8WSnxcSu9SLXNSaczI9kjO
+         9dPw==
+X-Gm-Message-State: AAQBX9dx1E6Sp22Dum+rDhDV39l7dq0waKxKZnaCkOYQxaq7tKlYT8sa
+	Zbx0LUPBPceEI4uM+cSsX2/P+dOYWI6184ufdV0f6XQH
+X-Google-Smtp-Source: AKy350YUWbJj2l+D16nygLPgF2ZOVhIUz7lxHGKQvpFLVZ21jLHSPrpmFl02fX+JBtac6Fz2Y0KmfrJdvYTK6ILqgLyFWQ==
+MIME-Version: 1.0
+X-Received: by 2002:a05:6820:138a:b0:53e:97e0:967d with SMTP id
+ i10-20020a056820138a00b0053e97e0967dmr468699oow.1.1681187794502; Mon, 10 Apr
+ 2023 21:36:34 -0700 (PDT)
+Feedback-ID: MailTypeResponseReceipt:GoogleForms
+X-GoogleForms-FormId: e/1FAIpQLSdAODl4WaRSEoNdrJsQreOAzkOfFDyI_96P9BtKDxHtXKgrog
+X-GoogleForms-CustomerDisplayName: Mr. & Mrs. Cloud
+Message-ID: <0000000000004accd705f9080920@google.com>
+Date: Tue, 11 Apr 2023 04:36:34 +0000
+Subject: JS Functions
+From: Google Forms <forms-receipts-noreply@google.com>
+To: shank.vattigunta@gmail.com
+Content-Type: multipart/alternative; boundary="0000000000004accc605f908091d"
+
+--0000000000004accc605f908091d
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+
+Google Forms
+
+
+Thanks for filling out JS Functions
+Here's what was received.
+
+View score
+
+
+JS Functions
+
+Functions
+
+
+Email *
+
+
+shank.vattigunta@gmail.com
+
+
+What will this code print to the console?
+const sleepTimer = (alarm) => {
+console.log('My alarm is set for: ' + alarm);
+}
+
+sleepTimer('8:30AM');
+
+*
+
+
+My alarm is set for: 8:30AM
+
+
+My alarm is set for: undefined
+
+
+My alarm is set for: alarm
+
+
+My alarm is set for: sleepTimer
+
+
+What is wrong with the code snippet provided?
+
+
+const greeting = => {
+console.log('Hello Programmer!');
+};
+
+
+*
+
+
+The ordering of = and => should be switched.
+
+
+The function expression cannot be declared with a const keyword.
+
+
+The curly braces {} should be parentheses ().
+
+
+The greeting function is missing a set of () between the = and =>.
+
+
+Which of the following is a parameter in the block of code below?
+
+
+let input = 8;
+const controlVal = input / 2 + 3;
+const multiplier = (number, phase) => {
+const val = number * controlVal + phase;
+console.log(val);
+};
+
+
+*
+
+
+controlVal
+
+
+input
+
+
+val
+
+
+number
+
+
+Which of the following best describes what a function in JavaScript is used  
+for?
+
+*
+
+
+A function allows for the use of mathematical operators.
+
+
+A function is a reusable piece of code that can accept input and performs a  
+specific task.
+
+
+A function creates new variables.
+
+
+A function stores data.
+
+
+Which correctly represents the most condensed form of the function? Recall  
+that this syntax is also known as 'concise body.'
+
+*
+
+
+const areaOfCircle = radius => { return Math.PI * radius * radius };
+
+
+const areaOfCircle = radius => Math.PI * radius * radius;
+
+
+const areaOfCircle = radius => { Math.PI * radius * radius };
+
+
+const areaOfCircle = radius => return Math.PI * radius * radius;
+
+
+This code prints: I ran 3 miles at an average of undefined per mile. Why  
+does the text include undefined?
+
+
+const workoutJournal = (miles, avgTime) => {
+console.log('I ran ' + miles + ' miles at an average of ' + avgTime + ' per  
+mile.');
+};
+
+workoutJournal('3');
+
+*
+
+
+The miles parameter is not declared.
+
+
+workoutJournal is not defined.
+
+
+workoutJournal does not print the value of both arguments.
+
+
+The call to workoutJournal is missing a second argument.
+
+
+Which of the following is the correct way to call the function below?
+
+
+const multiplier = (number) => {
+console.log(3 * number);
+};
+
+*
+
+
+multiplier{5}
+
+
+multiplier(5)
+
+
+multiplier 5
+
+
+multiplier[5]
+
+
+Which of the following most accurately describes the volumeOfCube()  
+function?
+
+
+function volumeOfCube (side) {
+return side * side * side;
+}
+
+volumeOfCube(5);
+// Output: 125.
+
+*
+
+
+It is a function expression.
+
+
+It is a function declaration.
+
+
+It is an arrow function.
+
+
+It is an anonymous function.
+
+
+What will be printed to the console?
+
+
+const eatFruit = (fruit = 'apple') => {
+console.log(`This ${fruit} is delicious!`);
+};
+
+eatFruit();
+
+*
+
+
+This apple is delicious!
+
+
+This fruit is delicious!
+
+
+This is delicious!
+
+
+This undefined is delicious!
+
+
+What's the purpose of a parameter?
+
+*
+
+
+To call a function.
+
+
+To allow a function to accept data.
+
+
+To specify actual values passed to a function.
+
+
+Create your own Google Form
+
+Report Abuse
+
+
+
+--0000000000004accc605f908091d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><style nonce=3D"xI2nPxyWy7Aq3u67eILrgA">@import url(https://fon=
+ts.googleapis.com/css?family=3DGoogle+Sans:400,500|Roboto:300,400,400i,500,=
+700&subset=3Dlatin,vietnamese,latin-ext,cyrillic,greek,cyrillic-ext,greek-e=
+xt);</style><style nonce=3D"xI2nPxyWy7Aq3u67eILrgA">[class=3D"x_body-conten=
+t-wrapper"] * {white-space: normal !important;}</style></head><body dir=3D"=
+ltr" style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif=
+;font-size: 14px; font-weight: 400; line-height: 20px;text-align: start; wo=
+rd-wrap: break-word; margin: 0; padding: 0; height: 100%; width: 100%;"><ta=
+ble border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"background-co=
+lor:rgb(103,58,183);" width=3D"100%" role=3D"presentation"><tbody><tr heigh=
+t=3D"64px"><td style=3D"padding: 0 24px;"><img alt=3D"Google Forms" height=
+=3D"26px" style=3D"display: inline-block; margin: 0; vertical-align: middle=
+;" width=3D"143px" src=3D"https://www.gstatic.com/docs/forms/google_forms_l=
+ogo_lockup_white_2x.png"></td></tr></tbody></table><div class=3D"body-conte=
+nt-wrapper" style=3D"padding: 12px; background-color: rgb(237,231,246);"><d=
+iv style=3D"margin: 0 auto; max-width: 640px; min-width: 154px;"><div style=
+=3D"border: 1px solid #dadce0; padding: 20px 12px;background-color: #fff; b=
+order-radius: 8px; margin-bottom: 12px;padding: 20px;"><h1 style=3D"color: =
+#202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 20px; fon=
+t-weight: 400; line-height: 28px;margin: 0 0 12px;">Thanks for filling out =
+<a href=3D"https://docs.google.com/forms/d/e/1FAIpQLSdAODl4WaRSEoNdrJsQreOA=
+zkOfFDyI_96P9BtKDxHtXKgrog/viewform?usp=3Dmail_form_link" target=3D"_blank"=
+ style=3D"white-space: pre-wrap;">JS Functions</a></h1>Here's what was rece=
+ived.<div style=3D"margin-top: 16px;"><div style=3D"margin-top: 24px"><a hr=
+ef=3D"https://docs.google.com/forms/u/0/d/e/1FAIpQLSdAODl4WaRSEoNdrJsQreOAz=
+kOfFDyI_96P9BtKDxHtXKgrog/viewscore?viewscore=3DAE0zAgDDyD3g6vlaioEb76UthB4=
+AtJdY3M1FvibJbnbjdPDbCYu1L0Ay85SWRr9giEcSf8g" target=3D"_blank" style=3D"bo=
+rder-radius: 4px;font-family: &#39;Google Sans&#39;,Roboto,Helvetica,Arial,=
+sans-serif;font-size: 14px; font-weight: 500; padding: 8px 24px; text-align=
+: center; text-decoration: none;background-color: rgb(103,58,183); color: #=
+fff;">View score</a></div><div itemprop=3D"action" itemscope itemtype=3D"ht=
+tp://schema.org/ViewAction"><meta itemprop=3D"url" content=3D"https://docs.=
+google.com/forms/u/0/d/e/1FAIpQLSdAODl4WaRSEoNdrJsQreOAzkOfFDyI_96P9BtKDxHt=
+XKgrog/viewscore?viewscore=3DAE0zAgDDyD3g6vlaioEb76UthB4AtJdY3M1FvibJbnbjdP=
+DbCYu1L0Ay85SWRr9giEcSf8g"><meta itemprop=3D"name" content=3D"View your sco=
+re"></div></div></div><div style=3D"border-bottom: 1px solid #dadce0; borde=
+r-left: 1px solid #dadce0; border-right: 1px solid #dadce0; border-top: 8px=
+ solid rgb(103,58,183); padding: 20px;background-color: #fff; border-radius=
+: 8px; margin-bottom: 12px;"><h1 dir=3D"ltr" style=3D"font-family: Roboto,H=
+elvetica,Arial,sans-serif;font-size: 32px; font-weight: 400; line-height: 4=
+2px;white-space: pre-wrap;margin: 0 0 12px;">JS Functions</h1><div style=3D=
+"white-space: pre-wrap;margin-bottom: 12px;">Functions</div></div><div styl=
+e=3D"border: 1px solid #dadce0; padding: 20px 12px;background-color: #fff; =
+border-radius: 8px; margin-bottom: 12px;margin-bottom: 12px;"><div style=3D=
+"padding: 0 12px;"><h2 dir=3D"auto" style=3D"color: #202124;font-family: Ro=
+boto,Helvetica,Arial,sans-serif;font-size: 16px; font-weight: 400; line-hei=
+ght: 24px;white-space: pre-wrap;margin: 0 0 16px;">Email<span style=3D"colo=
+r: #d93025;" aria-label=3D"Required question"> *</span></h2></div><div styl=
+e=3D"padding: 0 12px;"><div style=3D"width: 100%;"><div dir=3D"auto" style=
+=3D"white-space: pre-wrap;border-bottom: 1px dotted rgba(0,0,0,0.38);margin=
+: 12px 0 8px; min-height: 20px;display: inline-block; max-width: 100%; min-=
+width: 50%;">shank.vattigunta@gmail.com</div></div></div></div><div style=
+=3D"border: 1px solid #dadce0; padding: 20px 12px;background-color: #fff; b=
+order-radius: 8px; margin-bottom: 12px;margin-bottom: 12px;"><div style=3D"=
+padding: 0 12px;"><h2 dir=3D"auto" style=3D"color: #202124;font-family: Rob=
+oto,Helvetica,Arial,sans-serif;font-size: 16px; font-weight: 400; line-heig=
+ht: 24px;white-space: pre-wrap;margin: 0 0 16px;">What will this code print=
+ to the console?<div><span style=3D"white-space:pre-wrap">const sleepTimer =
+=3D=C2=A0(alarm) =3D&gt; {</span><br style=3D"white-space:pre-wrap"><span s=
+tyle=3D"white-space:pre-wrap">=C2=A0=C2=A0console.log('My alarm is set for:=
+ ' +=C2=A0alarm);</span><br style=3D"white-space:pre-wrap"><span style=3D"w=
+hite-space:pre-wrap">}</span><br style=3D"white-space:pre-wrap"><span style=
+=3D"white-space:pre-wrap"> </span><br style=3D"white-space:pre-wrap"><span =
+style=3D"white-space:pre-wrap">sleepTimer('8:30AM');</span><br></div><span =
+style=3D"color: #d93025;" aria-label=3D"Required question"> *</span></h2></=
+div><div style=3D"padding: 0 12px;"><div style=3D"margin-top: 16px;"><table=
+ style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;fon=
+t-size: 14px; font-weight: 400; line-height: 20px;margin-top: 8px; table-la=
+yout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"true" aria-label=
+=3D"My alarm is set for: 8:30AM" style=3D"border: solid 2px #5f6368; height=
+: 16px; width: 16px; border-radius: 50%;"><div style=3D"background-color: #=
+5f6368; border: solid 5px #5f6368; border-radius: 50%; margin: 3px; height:=
+ 0; width: 0;"></div></div></td><td style=3D"min-width: 8px;"></td><td styl=
+e=3D"word-break: break-word;">My alarm is set for: 8:30AM</td></tr></table>=
+</div><div style=3D"margin-top: 16px;"><table style=3D"color: #202124;font-=
+family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400=
+; line-height: 20px;color: #70757a;margin-top: 8px; table-layout: fixed;"><=
+tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"My alarm is=
+ set for: undefined" style=3D"border: solid 2px #9aa0a6; height: 16px; widt=
+h: 16px; border-radius: 50%;"></div></td><td style=3D"min-width: 8px;"></td=
+><td style=3D"word-break: break-word;">My alarm is set for: undefined</td><=
+/tr></table></div><div style=3D"margin-top: 16px;"><table style=3D"color: #=
+202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font=
+-weight: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-layou=
+t: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D=
+"My alarm is set for: alarm" style=3D"border: solid 2px #9aa0a6; height: 16=
+px; width: 16px; border-radius: 50%;"></div></td><td style=3D"min-width: 8p=
+x;"></td><td style=3D"word-break: break-word;">My alarm is set for: alarm</=
+td></tr></table></div><div style=3D"margin-top: 16px;"><table style=3D"colo=
+r: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; =
+font-weight: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-l=
+ayout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-labe=
+l=3D"My alarm is set for: sleepTimer" style=3D"border: solid 2px #9aa0a6; h=
+eight: 16px; width: 16px; border-radius: 50%;"></div></td><td style=3D"min-=
+width: 8px;"></td><td style=3D"word-break: break-word;">My alarm is set for=
+: sleepTimer</td></tr></table></div></div></div><div style=3D"border: 1px s=
+olid #dadce0; padding: 20px 12px;background-color: #fff; border-radius: 8px=
+; margin-bottom: 12px;margin-bottom: 12px;"><div style=3D"padding: 0 12px;"=
+><h2 dir=3D"auto" style=3D"color: #202124;font-family: Roboto,Helvetica,Ari=
+al,sans-serif;font-size: 16px; font-weight: 400; line-height: 24px;white-sp=
+ace: pre-wrap;margin: 0 0 16px;"><div><div><div><p>What is wrong with the c=
+ode snippet provided?</p></div></div><div><div style=3D"white-space:pre-wra=
+p">const greeting =3D=C2=A0=3D&gt; {<br>=C2=A0=C2=A0console.log('Hello Prog=
+rammer!');<br>};<br> </div></div></div><span style=3D"color: #d93025;" aria=
+-label=3D"Required question"> *</span></h2></div><div style=3D"padding: 0 1=
+2px;"><div style=3D"margin-top: 16px;"><table style=3D"color: #202124;font-=
+family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400=
+; line-height: 20px;color: #70757a;margin-top: 8px; table-layout: fixed;"><=
+tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"The orderin=
+g of =3D and =3D&gt; should be switched." style=3D"border: solid 2px #9aa0a=
+6; height: 16px; width: 16px; border-radius: 50%;"></div></td><td style=3D"=
+min-width: 8px;"></td><td style=3D"word-break: break-word;">The ordering of=
+ =3D and =3D&gt; should be switched.</td></tr></table></div><div style=3D"m=
+argin-top: 16px;"><table style=3D"color: #202124;font-family: Roboto,Helvet=
+ica,Arial,sans-serif;font-size: 14px; font-weight: 400; line-height: 20px;c=
+olor: #70757a;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"r=
+adio" aria-checked=3D"false" aria-label=3D"The function expression cannot b=
+e declared with a const keyword." style=3D"border: solid 2px #9aa0a6; heigh=
+t: 16px; width: 16px; border-radius: 50%;"></div></td><td style=3D"min-widt=
+h: 8px;"></td><td style=3D"word-break: break-word;">The function expression=
+ cannot be declared with a const keyword.</td></tr></table></div><div style=
+=3D"margin-top: 16px;"><table style=3D"color: #202124;font-family: Roboto,H=
+elvetica,Arial,sans-serif;font-size: 14px; font-weight: 400; line-height: 2=
+0px;color: #70757a;margin-top: 8px; table-layout: fixed;"><tr><td><div role=
+=3D"radio" aria-checked=3D"false" aria-label=3D"The curly braces {} should =
+be parentheses ()." style=3D"border: solid 2px #9aa0a6; height: 16px; width=
+: 16px; border-radius: 50%;"></div></td><td style=3D"min-width: 8px;"></td>=
+<td style=3D"word-break: break-word;">The curly braces {} should be parenth=
+eses ().</td></tr></table></div><div style=3D"margin-top: 16px;"><table sty=
+le=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-si=
+ze: 14px; font-weight: 400; line-height: 20px;margin-top: 8px; table-layout=
+: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"true" aria-label=3D"T=
+he greeting function is missing a set of () between the =3D and =3D&gt;." s=
+tyle=3D"border: solid 2px #5f6368; height: 16px; width: 16px; border-radius=
+: 50%;"><div style=3D"background-color: #5f6368; border: solid 5px #5f6368;=
+ border-radius: 50%; margin: 3px; height: 0; width: 0;"></div></div></td><t=
+d style=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">The =
+greeting function is missing a set of () between the =3D and =3D&gt;.</td><=
+/tr></table></div></div></div><div style=3D"border: 1px solid #dadce0; padd=
+ing: 20px 12px;background-color: #fff; border-radius: 8px; margin-bottom: 1=
+2px;margin-bottom: 12px;"><div style=3D"padding: 0 12px;"><h2 dir=3D"auto" =
+style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font=
+-size: 16px; font-weight: 400; line-height: 24px;white-space: pre-wrap;marg=
+in: 0 0 16px;"><div><div><div><div><div><p>Which of the following is a para=
+meter in the block of code below?</p></div></div><div><div style=3D"white-s=
+pace:pre-wrap">let input =3D=C2=A08;<br>const controlVal =3D=C2=A0input /=
+=C2=A02 +=C2=A03;<br>const multiplier =3D=C2=A0(number, phase) =3D&gt; {<br=
+>=C2=A0=C2=A0const val =3D=C2=A0number *=C2=A0controlVal +=C2=A0phase;<br>=
+=C2=A0=C2=A0console.log(val);<br>};</div></div></div></div><div><div style=
+=3D"white-space:pre-wrap"> </div></div></div><span style=3D"color: #d93025;=
+" aria-label=3D"Required question"> *</span></h2></div><div style=3D"paddin=
+g: 0 12px;"><div style=3D"margin-top: 16px;"><table style=3D"color: #202124=
+;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weigh=
+t: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-layout: fix=
+ed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"contr=
+olVal" style=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; borde=
+r-radius: 50%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"=
+word-break: break-word;">controlVal</td></tr></table></div><div style=3D"ma=
+rgin-top: 16px;"><table style=3D"color: #202124;font-family: Roboto,Helveti=
+ca,Arial,sans-serif;font-size: 14px; font-weight: 400; line-height: 20px;co=
+lor: #70757a;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"ra=
+dio" aria-checked=3D"false" aria-label=3D"input" style=3D"border: solid 2px=
+ #9aa0a6; height: 16px; width: 16px; border-radius: 50%;"></div></td><td st=
+yle=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">input</t=
+d></tr></table></div><div style=3D"margin-top: 16px;"><table style=3D"color=
+: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; f=
+ont-weight: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-la=
+yout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=
+=3D"val" style=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; bor=
+der-radius: 50%;"></div></td><td style=3D"min-width: 8px;"></td><td style=
+=3D"word-break: break-word;">val</td></tr></table></div><div style=3D"margi=
+n-top: 16px;"><table style=3D"color: #202124;font-family: Roboto,Helvetica,=
+Arial,sans-serif;font-size: 14px; font-weight: 400; line-height: 20px;margi=
+n-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=
+=3D"true" aria-label=3D"number" style=3D"border: solid 2px #5f6368; height:=
+ 16px; width: 16px; border-radius: 50%;"><div style=3D"background-color: #5=
+f6368; border: solid 5px #5f6368; border-radius: 50%; margin: 3px; height: =
+0; width: 0;"></div></div></td><td style=3D"min-width: 8px;"></td><td style=
+=3D"word-break: break-word;">number</td></tr></table></div></div></div><div=
+ style=3D"border: 1px solid #dadce0; padding: 20px 12px;background-color: #=
+fff; border-radius: 8px; margin-bottom: 12px;margin-bottom: 12px;"><div sty=
+le=3D"padding: 0 12px;"><h2 dir=3D"auto" style=3D"color: #202124;font-famil=
+y: Roboto,Helvetica,Arial,sans-serif;font-size: 16px; font-weight: 400; lin=
+e-height: 24px;white-space: pre-wrap;margin: 0 0 16px;"><div><p>Which of th=
+e following best describes what a function in JavaScript is used for?<span =
+style=3D"white-space:pre-wrap"> </span></p></div><span style=3D"color: #d93=
+025;" aria-label=3D"Required question"> *</span></h2></div><div style=3D"pa=
+dding: 0 12px;"><div style=3D"margin-top: 16px;"><table style=3D"color: #20=
+2124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-w=
+eight: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-layout:=
+ fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"A=
+ function allows for the use of mathematical operators." style=3D"border: s=
+olid 2px #9aa0a6; height: 16px; width: 16px; border-radius: 50%;"></div></t=
+d><td style=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">=
+A function allows for the use of mathematical operators.</td></tr></table><=
+/div><div style=3D"margin-top: 16px;"><table style=3D"color: #202124;font-f=
+amily: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400;=
+ line-height: 20px;margin-top: 8px; table-layout: fixed;"><tr><td><div role=
+=3D"radio" aria-checked=3D"true" aria-label=3D"A function is a reusable pie=
+ce of code that can accept input and performs a specific task." style=3D"bo=
+rder: solid 2px #5f6368; height: 16px; width: 16px; border-radius: 50%;"><d=
+iv style=3D"background-color: #5f6368; border: solid 5px #5f6368; border-ra=
+dius: 50%; margin: 3px; height: 0; width: 0;"></div></div></td><td style=3D=
+"min-width: 8px;"></td><td style=3D"word-break: break-word;">A function is =
+a reusable piece of code that can accept input and performs a specific task=
+.</td></tr></table></div><div style=3D"margin-top: 16px;"><table style=3D"c=
+olor: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14p=
+x; font-weight: 400; line-height: 20px;color: #70757a;margin-top: 8px; tabl=
+e-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-l=
+abel=3D"A function creates new variables." style=3D"border: solid 2px #9aa0=
+a6; height: 16px; width: 16px; border-radius: 50%;"></div></td><td style=3D=
+"min-width: 8px;"></td><td style=3D"word-break: break-word;">A function cre=
+ates new variables.</td></tr></table></div><div style=3D"margin-top: 16px;"=
+><table style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-se=
+rif;font-size: 14px; font-weight: 400; line-height: 20px;color: #70757a;mar=
+gin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checke=
+d=3D"false" aria-label=3D"A function stores data." style=3D"border: solid 2=
+px #9aa0a6; height: 16px; width: 16px; border-radius: 50%;"></div></td><td =
+style=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">A func=
+tion stores data.</td></tr></table></div></div></div><div style=3D"border: =
+1px solid #dadce0; padding: 20px 12px;background-color: #fff; border-radius=
+: 8px; margin-bottom: 12px;margin-bottom: 12px;"><div style=3D"padding: 0 1=
+2px;"><h2 dir=3D"auto" style=3D"color: #202124;font-family: Roboto,Helvetic=
+a,Arial,sans-serif;font-size: 16px; font-weight: 400; line-height: 24px;whi=
+te-space: pre-wrap;margin: 0 0 16px;"><p>Which correctly represents the mos=
+t condensed form of the function? Recall that this syntax is also known as =
+=E2=80=98concise body.=E2=80=99<br></p><span style=3D"color: #d93025;" aria=
+-label=3D"Required question"> *</span></h2></div><div style=3D"padding: 0 1=
+2px;"><div style=3D"margin-top: 16px;"><table style=3D"color: #202124;font-=
+family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400=
+; line-height: 20px;color: #70757a;margin-top: 8px; table-layout: fixed;"><=
+tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"const areaO=
+fCircle =3D radius =3D&gt; { return Math.PI * radius * radius };" style=3D"=
+border: solid 2px #9aa0a6; height: 16px; width: 16px; border-radius: 50%;">=
+</div></td><td style=3D"min-width: 8px;"></td><td style=3D"word-break: brea=
+k-word;">const areaOfCircle =3D radius =3D&gt; { return Math.PI * radius * =
+radius };</td></tr></table></div><div style=3D"margin-top: 16px;"><table st=
+yle=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-s=
+ize: 14px; font-weight: 400; line-height: 20px;color: #70757a;margin-top: 8=
+px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false=
+" aria-label=3D"const areaOfCircle =3D radius =3D&gt; Math.PI * radius * ra=
+dius;" style=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; borde=
+r-radius: 50%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"=
+word-break: break-word;">const areaOfCircle =3D radius =3D&gt; Math.PI * ra=
+dius * radius;</td></tr></table></div><div style=3D"margin-top: 16px;"><tab=
+le style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;f=
+ont-size: 14px; font-weight: 400; line-height: 20px;margin-top: 8px; table-=
+layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"true" aria-labe=
+l=3D"const areaOfCircle =3D radius =3D&gt; { Math.PI * radius * radius };" =
+style=3D"border: solid 2px #5f6368; height: 16px; width: 16px; border-radiu=
+s: 50%;"><div style=3D"background-color: #5f6368; border: solid 5px #5f6368=
+; border-radius: 50%; margin: 3px; height: 0; width: 0;"></div></div></td><=
+td style=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">con=
+st areaOfCircle =3D radius =3D&gt; { Math.PI * radius * radius };</td></tr>=
+</table></div><div style=3D"margin-top: 16px;"><table style=3D"color: #2021=
+24;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-wei=
+ght: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-layout: f=
+ixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"con=
+st areaOfCircle =3D radius =3D&gt; return Math.PI * radius * radius;" style=
+=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; border-radius: 50=
+%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"word-break: =
+break-word;">const areaOfCircle =3D radius =3D&gt; return Math.PI * radius =
+* radius;</td></tr></table></div></div></div><div style=3D"border: 1px soli=
+d #dadce0; padding: 20px 12px;background-color: #fff; border-radius: 8px; m=
+argin-bottom: 12px;margin-bottom: 12px;"><div style=3D"padding: 0 12px;"><h=
+2 dir=3D"auto" style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,=
+sans-serif;font-size: 16px; font-weight: 400; line-height: 24px;white-space=
+: pre-wrap;margin: 0 0 16px;"><div><div><p>This code prints:=C2=A0<span sty=
+le=3D"font-weight:700">I ran 3 miles at an average of undefined per mile</s=
+pan>. Why does the text include=C2=A0<span style=3D"font-weight:700">undefi=
+ned</span>?</p></div></div><div><div style=3D"white-space:pre-wrap">const w=
+orkoutJournal =3D=C2=A0(miles, avgTime) =3D&gt; {<br>=C2=A0=C2=A0console.lo=
+g('I ran ' +=C2=A0miles +=C2=A0' miles at an average of ' +=C2=A0avgTime +=
+=C2=A0' per mile.');<br>};<br> <br>workoutJournal('3');</div></div><span st=
+yle=3D"color: #d93025;" aria-label=3D"Required question"> *</span></h2></di=
+v><div style=3D"padding: 0 12px;"><div style=3D"margin-top: 16px;"><table s=
+tyle=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-=
+size: 14px; font-weight: 400; line-height: 20px;color: #70757a;margin-top: =
+8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"fals=
+e" aria-label=3D"The miles parameter is not declared." style=3D"border: sol=
+id 2px #9aa0a6; height: 16px; width: 16px; border-radius: 50%;"></div></td>=
+<td style=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">Th=
+e miles parameter is not declared.</td></tr></table></div><div style=3D"mar=
+gin-top: 16px;"><table style=3D"color: #202124;font-family: Roboto,Helvetic=
+a,Arial,sans-serif;font-size: 14px; font-weight: 400; line-height: 20px;col=
+or: #70757a;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"rad=
+io" aria-checked=3D"false" aria-label=3D"workoutJournal is not defined." st=
+yle=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; border-radius:=
+ 50%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"word-brea=
+k: break-word;">workoutJournal is not defined.</td></tr></table></div><div =
+style=3D"margin-top: 16px;"><table style=3D"color: #202124;font-family: Rob=
+oto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400; line-heig=
+ht: 20px;color: #70757a;margin-top: 8px; table-layout: fixed;"><tr><td><div=
+ role=3D"radio" aria-checked=3D"false" aria-label=3D"workoutJournal does no=
+t print the value of both arguments." style=3D"border: solid 2px #9aa0a6; h=
+eight: 16px; width: 16px; border-radius: 50%;"></div></td><td style=3D"min-=
+width: 8px;"></td><td style=3D"word-break: break-word;">workoutJournal does=
+ not print the value of both arguments.</td></tr></table></div><div style=
+=3D"margin-top: 16px;"><table style=3D"color: #202124;font-family: Roboto,H=
+elvetica,Arial,sans-serif;font-size: 14px; font-weight: 400; line-height: 2=
+0px;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria=
+-checked=3D"true" aria-label=3D"The call to workoutJournal is missing a sec=
+ond argument." style=3D"border: solid 2px #5f6368; height: 16px; width: 16p=
+x; border-radius: 50%;"><div style=3D"background-color: #5f6368; border: so=
+lid 5px #5f6368; border-radius: 50%; margin: 3px; height: 0; width: 0;"></d=
+iv></div></td><td style=3D"min-width: 8px;"></td><td style=3D"word-break: b=
+reak-word;">The call to workoutJournal is missing a second argument.</td></=
+tr></table></div></div></div><div style=3D"border: 1px solid #dadce0; paddi=
+ng: 20px 12px;background-color: #fff; border-radius: 8px; margin-bottom: 12=
+px;margin-bottom: 12px;"><div style=3D"padding: 0 12px;"><h2 dir=3D"auto" s=
+tyle=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-=
+size: 16px; font-weight: 400; line-height: 24px;white-space: pre-wrap;margi=
+n: 0 0 16px;"><div><div><p>Which of the following is the correct way to cal=
+l the function below?</p></div></div><div><div style=3D"white-space:pre-wra=
+p">const multiplier =3D=C2=A0(number) =3D&gt; {<br>=C2=A0=C2=A0console.log(=
+3 *=C2=A0number);<br>};</div></div><span style=3D"color: #d93025;" aria-lab=
+el=3D"Required question"> *</span></h2></div><div style=3D"padding: 0 12px;=
+"><div style=3D"margin-top: 16px;"><table style=3D"color: #202124;font-fami=
+ly: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400; li=
+ne-height: 20px;color: #70757a;margin-top: 8px; table-layout: fixed;"><tr><=
+td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"multiplier{5}" =
+style=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; border-radiu=
+s: 50%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"word-br=
+eak: break-word;">multiplier{5}</td></tr></table></div><div style=3D"margin=
+-top: 16px;"><table style=3D"color: #202124;font-family: Roboto,Helvetica,A=
+rial,sans-serif;font-size: 14px; font-weight: 400; line-height: 20px;margin=
+-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=
+=3D"true" aria-label=3D"multiplier(5)" style=3D"border: solid 2px #5f6368; =
+height: 16px; width: 16px; border-radius: 50%;"><div style=3D"background-co=
+lor: #5f6368; border: solid 5px #5f6368; border-radius: 50%; margin: 3px; h=
+eight: 0; width: 0;"></div></div></td><td style=3D"min-width: 8px;"></td><t=
+d style=3D"word-break: break-word;">multiplier(5)</td></tr></table></div><d=
+iv style=3D"margin-top: 16px;"><table style=3D"color: #202124;font-family: =
+Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400; line-h=
+eight: 20px;color: #70757a;margin-top: 8px; table-layout: fixed;"><tr><td><=
+div role=3D"radio" aria-checked=3D"false" aria-label=3D"multiplier 5" style=
+=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; border-radius: 50=
+%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"word-break: =
+break-word;">multiplier 5</td></tr></table></div><div style=3D"margin-top: =
+16px;"><table style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,s=
+ans-serif;font-size: 14px; font-weight: 400; line-height: 20px;color: #7075=
+7a;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radio" aria-=
+checked=3D"false" aria-label=3D"multiplier[5]" style=3D"border: solid 2px #=
+9aa0a6; height: 16px; width: 16px; border-radius: 50%;"></div></td><td styl=
+e=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">multiplier=
+[5]</td></tr></table></div></div></div><div style=3D"border: 1px solid #dad=
+ce0; padding: 20px 12px;background-color: #fff; border-radius: 8px; margin-=
+bottom: 12px;margin-bottom: 12px;"><div style=3D"padding: 0 12px;"><h2 dir=
+=3D"auto" style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-=
+serif;font-size: 16px; font-weight: 400; line-height: 24px;white-space: pre=
+-wrap;margin: 0 0 16px;"><div><div><p>Which of the following most accuratel=
+y describes the=C2=A0<span style=3D"font-weight:700">volumeOfCube()</span>=
+=C2=A0function?</p></div></div><div><div style=3D"white-space:pre-wrap">fun=
+ction volumeOfCube (side) {<br>=C2=A0=C2=A0return side *=C2=A0side *=C2=A0s=
+ide;<br>}<br> <br>volumeOfCube(5);<br>// Output: 125.</div></div><span styl=
+e=3D"color: #d93025;" aria-label=3D"Required question"> *</span></h2></div>=
+<div style=3D"padding: 0 12px;"><div style=3D"margin-top: 16px;"><table sty=
+le=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-si=
+ze: 14px; font-weight: 400; line-height: 20px;color: #70757a;margin-top: 8p=
+x; table-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"false"=
+ aria-label=3D"It is a function expression." style=3D"border: solid 2px #9a=
+a0a6; height: 16px; width: 16px; border-radius: 50%;"></div></td><td style=
+=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">It is a fun=
+ction expression.</td></tr></table></div><div style=3D"margin-top: 16px;"><=
+table style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-seri=
+f;font-size: 14px; font-weight: 400; line-height: 20px;margin-top: 8px; tab=
+le-layout: fixed;"><tr><td><div role=3D"radio" aria-checked=3D"true" aria-l=
+abel=3D"It is a function declaration." style=3D"border: solid 2px #5f6368; =
+height: 16px; width: 16px; border-radius: 50%;"><div style=3D"background-co=
+lor: #5f6368; border: solid 5px #5f6368; border-radius: 50%; margin: 3px; h=
+eight: 0; width: 0;"></div></div></td><td style=3D"min-width: 8px;"></td><t=
+d style=3D"word-break: break-word;">It is a function declaration.</td></tr>=
+</table></div><div style=3D"margin-top: 16px;"><table style=3D"color: #2021=
+24;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-wei=
+ght: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-layout: f=
+ixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"It =
+is an arrow function." style=3D"border: solid 2px #9aa0a6; height: 16px; wi=
+dth: 16px; border-radius: 50%;"></div></td><td style=3D"min-width: 8px;"></=
+td><td style=3D"word-break: break-word;">It is an arrow function.</td></tr>=
+</table></div><div style=3D"margin-top: 16px;"><table style=3D"color: #2021=
+24;font-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-wei=
+ght: 400; line-height: 20px;color: #70757a;margin-top: 8px; table-layout: f=
+ixed;"><tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"It =
+is an anonymous function." style=3D"border: solid 2px #9aa0a6; height: 16px=
+; width: 16px; border-radius: 50%;"></div></td><td style=3D"min-width: 8px;=
+"></td><td style=3D"word-break: break-word;">It is an anonymous function.</=
+td></tr></table></div></div></div><div style=3D"border: 1px solid #dadce0; =
+padding: 20px 12px;background-color: #fff; border-radius: 8px; margin-botto=
+m: 12px;margin-bottom: 12px;"><div style=3D"padding: 0 12px;"><h2 dir=3D"au=
+to" style=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;=
+font-size: 16px; font-weight: 400; line-height: 24px;white-space: pre-wrap;=
+margin: 0 0 16px;"><div><div><p>What will be printed to the console?</p></d=
+iv></div><div><div style=3D"white-space:pre-wrap">const eatFruit =3D=C2=A0(=
+fruit =3D=C2=A0&#39;apple&#39;) =3D&gt; {<br>=C2=A0=C2=A0console.log(`This =
+${fruit} is delicious!`);<br>};<br> <br>eatFruit();</div></div><span style=
+=3D"color: #d93025;" aria-label=3D"Required question"> *</span></h2></div><=
+div style=3D"padding: 0 12px;"><div style=3D"margin-top: 16px;"><table styl=
+e=3D"color: #202124;font-family: Roboto,Helvetica,Arial,sans-serif;font-siz=
+e: 14px; font-weight: 400; line-height: 20px;margin-top: 8px; table-layout:=
+ fixed;"><tr><td><div role=3D"radio" aria-checked=3D"true" aria-label=3D"Th=
+is apple is delicious!" style=3D"border: solid 2px #5f6368; height: 16px; w=
+idth: 16px; border-radius: 50%;"><div style=3D"background-color: #5f6368; b=
+order: solid 5px #5f6368; border-radius: 50%; margin: 3px; height: 0; width=
+: 0;"></div></div></td><td style=3D"min-width: 8px;"></td><td style=3D"word=
+-break: break-word;">This apple is delicious!</td></tr></table></div><div s=
+tyle=3D"margin-top: 16px;"><table style=3D"color: #202124;font-family: Robo=
+to,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400; line-heigh=
+t: 20px;color: #70757a;margin-top: 8px; table-layout: fixed;"><tr><td><div =
+role=3D"radio" aria-checked=3D"false" aria-label=3D"This fruit is delicious=
+!" style=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; border-ra=
+dius: 50%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"word=
+-break: break-word;">This fruit is delicious!</td></tr></table></div><div s=
+tyle=3D"margin-top: 16px;"><table style=3D"color: #202124;font-family: Robo=
+to,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400; line-heigh=
+t: 20px;color: #70757a;margin-top: 8px; table-layout: fixed;"><tr><td><div =
+role=3D"radio" aria-checked=3D"false" aria-label=3D"This is delicious!" sty=
+le=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; border-radius: =
+50%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"word-break=
+: break-word;">This is delicious!</td></tr></table></div><div style=3D"marg=
+in-top: 16px;"><table style=3D"color: #202124;font-family: Roboto,Helvetica=
+,Arial,sans-serif;font-size: 14px; font-weight: 400; line-height: 20px;colo=
+r: #70757a;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radi=
+o" aria-checked=3D"false" aria-label=3D"This undefined is delicious!" style=
+=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; border-radius: 50=
+%;"></div></td><td style=3D"min-width: 8px;"></td><td style=3D"word-break: =
+break-word;">This undefined is delicious!</td></tr></table></div></div></di=
+v><div style=3D"border: 1px solid #dadce0; padding: 20px 12px;background-co=
+lor: #fff; border-radius: 8px; margin-bottom: 12px;margin-bottom: 12px;"><d=
+iv style=3D"padding: 0 12px;"><h2 dir=3D"auto" style=3D"color: #202124;font=
+-family: Roboto,Helvetica,Arial,sans-serif;font-size: 16px; font-weight: 40=
+0; line-height: 24px;white-space: pre-wrap;margin: 0 0 16px;"><p>What=E2=80=
+=99s the purpose of a parameter?<br></p><span style=3D"color: #d93025;" ari=
+a-label=3D"Required question"> *</span></h2></div><div style=3D"padding: 0 =
+12px;"><div style=3D"margin-top: 16px;"><table style=3D"color: #202124;font=
+-family: Roboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 40=
+0; line-height: 20px;color: #70757a;margin-top: 8px; table-layout: fixed;">=
+<tr><td><div role=3D"radio" aria-checked=3D"false" aria-label=3D"To call a =
+function." style=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px; b=
+order-radius: 50%;"></div></td><td style=3D"min-width: 8px;"></td><td style=
+=3D"word-break: break-word;">To call a function.</td></tr></table></div><di=
+v style=3D"margin-top: 16px;"><table style=3D"color: #202124;font-family: R=
+oboto,Helvetica,Arial,sans-serif;font-size: 14px; font-weight: 400; line-he=
+ight: 20px;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radi=
+o" aria-checked=3D"true" aria-label=3D"To allow a function to accept data."=
+ style=3D"border: solid 2px #5f6368; height: 16px; width: 16px; border-radi=
+us: 50%;"><div style=3D"background-color: #5f6368; border: solid 5px #5f636=
+8; border-radius: 50%; margin: 3px; height: 0; width: 0;"></div></div></td>=
+<td style=3D"min-width: 8px;"></td><td style=3D"word-break: break-word;">To=
+ allow a function to accept data.</td></tr></table></div><div style=3D"marg=
+in-top: 16px;"><table style=3D"color: #202124;font-family: Roboto,Helvetica=
+,Arial,sans-serif;font-size: 14px; font-weight: 400; line-height: 20px;colo=
+r: #70757a;margin-top: 8px; table-layout: fixed;"><tr><td><div role=3D"radi=
+o" aria-checked=3D"false" aria-label=3D"To specify actual values passed to =
+a function." style=3D"border: solid 2px #9aa0a6; height: 16px; width: 16px;=
+ border-radius: 50%;"></div></td><td style=3D"min-width: 8px;"></td><td sty=
+le=3D"word-break: break-word;">To specify actual values passed to a functio=
+n.</td></tr></table></div></div></div></div><table align=3D"center" cellpad=
+ding=3D"0" cellspacing=3D"0" style=3D"max-width: 672px; min-width: 154px; b=
+order-collapse: separate; border-spacing: 0 0.2em;" width=3D"100%" role=3D"=
+presentation"><tbody><tr height=3D"24px"><td></td></tr><tr><td><a href=3D"h=
+ttps://docs.google.com/forms?usp=3Dmail_form_link" style=3D"color: #424242;=
+ font-size: 13px;">Create your own Google Form</a></td></tr><tr><td><a href=
+=3D"https://docs.google.com/forms/u/0/d/e/1FAIpQLSdAODl4WaRSEoNdrJsQreOAzkO=
+fFDyI_96P9BtKDxHtXKgrog/reportabuse?source=3Dhttps://docs.google.com/forms/=
+d/e/1FAIpQLSdAODl4WaRSEoNdrJsQreOAzkOfFDyI_96P9BtKDxHtXKgrog/viewform&amp;u=
+sp=3Dmail_receipt_abuse" target=3D"_blank" style=3D"color: #424242; font-si=
+ze: 13px;">Report Abuse</a></td></tr></tbody></table></div></body></html>
+--0000000000004accc605f908091d--
